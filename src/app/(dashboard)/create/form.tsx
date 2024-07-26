@@ -1,28 +1,38 @@
 "use client";
-
 import * as React from "react";
-import {Button, ComboSelectField, DateField, Form, InputField, useForm, z, zodResolver,} from "@/forms";
+import {Button, ComboSelectField, Form, InputField, useForm, z, zodResolver,} from "@/forms";
 import {SubmitHandler} from "react-hook-form";
 import {createUser} from "@/services/users";
 import {useMutation} from "@tanstack/react-query";
+import {useToast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     name: z.string({required_error: "Please provide name"}),
     gender: z.string({required_error: "Please select a gender"}),
-    date: z.string({required_error: "Please provide the date"}),
+    email: z.string({required_error: "Please provide the date"}),
+    sleepTimeDuration: z.string({required_error: "Please provide the sleep time duration"}),
 });
 type ValuesType = z.infer<typeof formSchema>;
 
 const gender = [{name: 'Male', id: 'm'}, {name: 'Female', id: 'f'}]
 export default function Component(): React.ReactNode {
 
+    // const toast = useToast();
     const {mutate} = useMutation({
         mutationFn: (variables) => createUser(variables),
         onSuccess: (res) => {
-
+            // toast({
+            //     title: "Success",
+            //     description: "New user created!",
+            //     className: "bg-green-500",
+            // })
         },
         onError: () => {
-
+            // toast({
+            //     variant: "destructive",
+            //     title: "Error",
+            //     description: "Unable to create new user at the moment, Please try again"
+            // })
         }
     })
 
@@ -31,9 +41,10 @@ export default function Component(): React.ReactNode {
         resolver: zodResolver(formSchema),
         mode: "all",
         defaultValues: {
-            name: "NG",
-            gender: "NG",
-            date: "",
+            name: "",
+            gender: "",
+            email: "",
+            sleepTimeDuration: "",
         },
     });
 
@@ -43,9 +54,9 @@ export default function Component(): React.ReactNode {
     };
 
     return (
-        <div className="space-y-8">
-            <Form {...form}>
-                <form className="w-full max-w-lg mx-auto py-8 lg:px-0 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+        <Form {...form}>
+            <form className="w-full max-w-lg mx-auto py-8 lg:px-0 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                <div>
                     <div className="space-y-1 pb-8">
                         <p className="text-2xl sm:text-3xl font-bold">Add User</p>
                     </div>
@@ -55,7 +66,12 @@ export default function Component(): React.ReactNode {
                         placeholder={"Required"}
                         label={" Name"}
                     />
-
+                    <InputField
+                        control={form.control}
+                        name={"email"}
+                        placeholder={"Required"}
+                        label={" Email"}
+                    />
                     <ComboSelectField
                         control={form.control}
                         name={"gender"}
@@ -66,7 +82,12 @@ export default function Component(): React.ReactNode {
                         options={gender}
                     />
 
-                    <DateField name='date' label='Date'/>
+                    <InputField
+                        control={form.control}
+                        name={"sleepTimeDuration"}
+                        placeholder={"Required"}
+                        label={" Sleep Time Duration"}
+                    />
 
                     <div className="pt-8">
                         <Button
@@ -77,8 +98,8 @@ export default function Component(): React.ReactNode {
                             {form.formState.isSubmitting ? "Please wait..." : "Create User"}
                         </Button>
                     </div>
-                </form>
-            </Form>
-        </div>
+                </div>
+            </form>
+        </Form>
     );
 }

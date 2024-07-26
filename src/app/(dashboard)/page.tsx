@@ -5,7 +5,7 @@ import {Button, Loader} from "@/components";
 import {useRouter} from "next/navigation";
 import {faker} from "@faker-js/faker";
 import Link from "next/link";
-import {useQuery} from "@tanstack/react-query/build/modern";
+import {useQuery} from "@tanstack/react-query";
 import {getUsers} from "@/services/users";
 
 async function getFakeUsers(

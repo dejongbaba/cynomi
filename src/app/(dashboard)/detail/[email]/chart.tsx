@@ -6,8 +6,8 @@ import {getUserChartById} from "@/services/users";
 import {Loader} from "@/components";
 
 
-function Component({params}: { params: { id: string } }) {
-    const id = params.id;
+function Component({params}: { params: { email: string } }) {
+    const id = params.email;
     const {data, isLoading, error} = useQuery({queryKey: ['chart', id], queryFn: () => getUserChartById(id)});
 
     // TODO data should fit into bar chart array structure
