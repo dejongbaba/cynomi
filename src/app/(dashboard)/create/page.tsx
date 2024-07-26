@@ -3,7 +3,7 @@ import Form from "./form";
 
 
 export default function DemoPage() {
-  return (
-   <Form />
-  );
+    return (
+        <Form/>
+    );
 }
