@@ -24,15 +24,6 @@ export default function DemoPage() {
     const navigator = useRouter();
     const {data, isLoading, error} = useQuery({queryKey: ['users'], queryFn: () => getUsers()})
 
-    if (error) {
-        return <div>
-            Something went wrong
-        </div>
-    }
-
-    if (isLoading) {
-        return <Loader/>
-    }
 
     const onRowClick = (obj: Record<string, any>) => {
         navigator.push(`/detail/${obj?.original?.id}`)
@@ -54,7 +45,8 @@ export default function DemoPage() {
                 </div>
             </div>
 
-            {isLoading ? (
+
+            {error ? <div>Something Went wrong</div> : isLoading ? (
                 <Loader/>
             ) : (
                 <>

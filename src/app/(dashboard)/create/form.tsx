@@ -14,25 +14,26 @@ const formSchema = z.object({
 });
 type ValuesType = z.infer<typeof formSchema>;
 
-const gender = [{name: 'Male', id: 'm'}, {name: 'Female', id: 'f'}]
-export default function Component(): React.ReactNode {
+const gender = [{name: 'Male', id: 'm', code: 'm'}, {name: 'Female', id: 'f', code: 'f'}]
 
-    // const toast = useToast();
+function Component(): React.ReactNode {
+
+    const toast = useToast();
     const {mutate} = useMutation({
         mutationFn: (variables) => createUser(variables),
         onSuccess: (res) => {
-            // toast({
-            //     title: "Success",
-            //     description: "New user created!",
-            //     className: "bg-green-500",
-            // })
+            toast({
+                title: "Success",
+                description: "New user created!",
+                className: "bg-green-500",
+            })
         },
         onError: () => {
-            // toast({
-            //     variant: "destructive",
-            //     title: "Error",
-            //     description: "Unable to create new user at the moment, Please try again"
-            // })
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Unable to create new user at the moment, Please try again"
+            })
         }
     })
 
@@ -61,19 +62,19 @@ export default function Component(): React.ReactNode {
                         <p className="text-2xl sm:text-3xl font-bold">Add User</p>
                     </div>
                     <InputField
-                        control={form.control}
+                        // control={form.control}
                         name={"name"}
                         placeholder={"Required"}
                         label={" Name"}
                     />
                     <InputField
-                        control={form.control}
+                        // control={form.control}
                         name={"email"}
                         placeholder={"Required"}
                         label={" Email"}
                     />
                     <ComboSelectField
-                        control={form.control}
+                        // control={form.control}
                         name={"gender"}
                         placeholder={"Required"}
                         label={"Gender"}
@@ -83,7 +84,7 @@ export default function Component(): React.ReactNode {
                     />
 
                     <InputField
-                        control={form.control}
+                        // control={form.control}
                         name={"sleepTimeDuration"}
                         placeholder={"Required"}
                         label={" Sleep Time Duration"}
@@ -93,7 +94,7 @@ export default function Component(): React.ReactNode {
                         <Button
                             size={"lg"}
                             className="w-auto sm:w-auto"
-                            disabled={!form.formState.isValid || form.formState.isSubmitting||}
+                            disabled={!form.formState.isValid || form.formState.isSubmitting}
                             type={"submit"}>
                             {form.formState.isSubmitting ? "Please wait..." : "Create User"}
                         </Button>
@@ -103,3 +104,5 @@ export default function Component(): React.ReactNode {
         </Form>
     );
 }
+
+export default Component;
