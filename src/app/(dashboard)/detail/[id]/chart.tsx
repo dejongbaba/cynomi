@@ -3,16 +3,14 @@
 import {Bar, BarChart, ResponsiveContainer, XAxis, YAxis} from "recharts"
 import {useQuery} from "@tanstack/react-query";
 import {getUserChartById} from "@/services/users";
-import {useParams} from "next/navigation";
 import {Loader} from "@/components";
 
 
-function Component() {
+function Component({params}: { params: { id: string } }) {
+    const id = params.id;
+    const {data, isLoading, error} = useQuery({queryKey: ['chart', id], queryFn: () => getUserChartById(id)});
 
-    const params = useParams();
-
-    const id = params.get('id');
-    const {data, isLoading, error} = useQuery({queryKey: ['chart', id], queryFn: () => getUserChartById(id)})
+    // TODO data should fit into bar chart array structure
     const demo = [
         {
             name: "Jan",
